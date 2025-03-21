@@ -159,8 +159,17 @@ The idea for this language is to combine 4 different languages into one that I w
       know how many of these is even theoretically portable to an imperative-language. Maybe some of these features are
       gated behind the language being a pure-FP language??? Not too sure.
     + Haskell also has the idea of functional dependencies for typeclasses (Rust has limited version of this with
-      associated types/GATs), but it would be cool if there was somne kind of way to support this in my language. But
+      associated types/GATs), but it would be cool if there was some kind of way to support this in my language. But
       the syntax for it, I can't even begin to know what it might be.
+        * Naively it could be something like
+            ```my-lang
+            // Functional dependency: `Key` determines `Value`
+            trait Lookup<Key, Value> where Key => Value {
+                fn get(&self, key: Key) -> Option<Value>;
+            }
+            ```
+          but this would suggest that `Key => Value` is some kind of "constraint" when it might not be so. I would have
+          to research what Haskell does under-the-hood to represent these things.
     + Rust's macro system seems rather powerful onto itself, but Haskell's "Template Haskell" and splicing system seems
       perhaps _more_ powerful? So I want to think about borrowing that system eventually. Maybe even have both, where
       they compliment each-other? Rust's macro-system could be used for "dumb" token-stream processing to enable things

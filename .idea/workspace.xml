@@ -7,7 +7,7 @@
     <cargoProject FILE="$PROJECT_DIR$/Cargo.toml" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="50d21436-6df6-48ba-9d12-934b6ef52119" name="Changes" comment="more reflections on trait objects, type-applications/turbofish syntax, and functional dependencies">
+    <list default="true" id="50d21436-6df6-48ba-9d12-934b6ef52119" name="Changes" comment="added more reflections on &quot;generic eliding&quot;">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
@@ -79,7 +79,7 @@
       <workItem from="1742593125872" duration="10000" />
       <workItem from="1742593138898" duration="87000" />
       <workItem from="1742593226282" duration="10000" />
-      <workItem from="1742593239464" duration="3479000" />
+      <workItem from="1742593239464" duration="4308000" />
     </task>
     <task id="LOCAL-00001" summary="workspace">
       <option name="closed" value="true" />
@@ -105,7 +105,15 @@
       <option name="project" value="LOCAL" />
       <updated>1742594406241</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="added more reflections on &quot;generic eliding&quot;">
+      <option name="closed" value="true" />
+      <created>1742597033434</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1742597033434</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -126,6 +134,7 @@
     <MESSAGE value="workspace" />
     <MESSAGE value="reflections on how to handle mutability" />
     <MESSAGE value="more reflections on trait objects, type-applications/turbofish syntax, and functional dependencies" />
-    <option name="LAST_COMMIT_MESSAGE" value="more reflections on trait objects, type-applications/turbofish syntax, and functional dependencies" />
+    <MESSAGE value="added more reflections on &quot;generic eliding&quot;" />
+    <option name="LAST_COMMIT_MESSAGE" value="added more reflections on &quot;generic eliding&quot;" />
   </component>
 </project>
