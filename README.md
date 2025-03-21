@@ -1,3 +1,5 @@
+As of now, this is entirely wishful thinking and I will probably never ever implement any of this :)
+
 The idea for this language is to combine 4 different languages into one that I wish existed:
 
 - The base of the language should be Rust: in syntax and semantics, and everything else would be described as "deviations" from Rust (as borrowed from other languages)
