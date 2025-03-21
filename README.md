@@ -4,6 +4,49 @@ The idea for this language is to combine 4 different languages into one that I w
 
 - The base of the language should be Rust: in syntax and semantics, and everything else would be described as "
   deviations" from Rust (as borrowed from other languages)
+    + One thing I would LOVE to remove from this language is the "impl" keyword. For return-position "impl" it should
+      ideally be replaced with existential types (because I want that feature supported eventually) and for
+      argument-position "impl" you should just use a generic parameter - there is no advantage to NOT using generic
+      parameters in this situation.
+    + Another thing I want to do is support robust "generic-eliding". In Rust there is already "lifetime-eliding" from
+      the generic position when there isn't any ambiguity e.g. `fn str_id<'a>(s: &'a str) -> &'a str { s }` can be
+      elided
+      to `fn str_id(s: &str) -> &str { s }`. I want something like that but for types. just like in Haskell e.g.
+        ```haskell
+        flip :: forall a b c. (a -> b -> c) -> b -> a -> c
+        flip f b a = f a b
+      
+        -- the explicit quantification can be "elided", just writing this instead
+        flip :: (a -> b -> c) -> b -> a -> c
+        flip f b a = f a b
+        ```
+      So in my language `fn id<T>(t: T) -> T { t }` could be elided to `fn id(t: T) -> T { t }`. Or for a more involved
+      example
+        ```my-lang
+        fn compose_kleisli_ltr[M, A, B, C](bs: A -> M[B])(cs: B -> M[C])(a: A) -> M[C] 
+        where M: Monad { 
+            ... 
+        }
+      
+        // the explicit generics could be elided, just writing this instead
+        fn compose_kleisli_ltr(bs: A -> M[B])(cs: B -> M[C])(a: A) -> M[C] 
+        where M: Monad { 
+            ... 
+        }
+        ```
+      but this would HAVE to be integrated into the higher-ranked-polymorhism system somehow; this is because (as it
+      stands) Haskell's "forall" in the Rank-1 position corresponds to our function's generic parameters (e.g.
+      `foo[A] ...`)
+      while the "forall"s in any Rank-N (N >= 2) would correspond to our higher-ranked-trait-bounds keyword `for[T]`
+      which is an unnecessary conceptual fragmentation.
+        * Perhaps I could re-design "generic" syntax (of functions, and maybe even data-constructors, but I don't know
+          if even haskell allows this to be honest...) to be simple syntax sugar for the full "bound" expression that
+          uses `for[A]` keyword under the hood? This way, both generics and `for[A]` would always correspond
+          conceptually to Haskell's `forall`.
+        * But I can't think of any intuitive syntax for this, since this language (as it stands) explicitly combines
+          function body and function signature, while Haskell has the luxury of having them separate, so it can easily
+          write something like this `flip :: forall a b c. (a -> b -> c) -> b -> a -> c` adding the quantification
+          keyword into the signature itself.
 - I want this language to have a Go-style garbage collector and Go-style dynamic-dispatch of interfaces (aka traits)
   using a fat-pointer to store polymorphism information (rather than vtable like C++)
     + this means no need for borrow checker, lifetimes, manual memory management, etc. Essentially a garbage collected,
@@ -52,9 +95,9 @@ The idea for this language is to combine 4 different languages into one that I w
     + Rank-N polymorphism, which is currently VERY limited-ly supported in Rust with lifetime higher-ranked-trait-bounds
       syntax, e.g. `where for<'a> Foo: BarTrait<'a>` or something. But I want it to be arbitrarily nested (hence Rank-N)
       and work on types. Not too sure how *exactly* I want to the syntax to be? Keeping Rust's "for" syntax is the path
-      of least resistance so something like `where for<T> Foo: BarTrait<T>` or something..., but I don't know how I it
+      of least resistance so something like `where for[T] Foo: BarTrait[T]` or something..., but I don't know how I it
       would scale to nested bounds like these. Also presumably I would want to create implication bounds like these
-      `where for<T: FooTrait> Foo: BarTrait<T>` which says, "forall T such that T:FooTrait require Foo:BarTrait<T>".
+      `where for[T: FooTrait] Foo: BarTrait[T]` which says, "forall T such that T:FooTrait require Foo:BarTrait[T]".
     + Optionally explicit "self" types (atleast for traits/typeclasses). In Rust, any trait will implicitly have a "
       Self" type. So `trait Foo {}` is equivalent to Haskell's `class Foo a` where the `Self` corresponds to `a`. So
       what I want to do is make that correspondence clear; the `Self` type should become simply syntax-sugar for a
@@ -126,7 +169,8 @@ The idea for this language is to combine 4 different languages into one that I w
       Rust, "derive" is a proc-macro while for Haskell I'm not too sure how deriving works....
     + I want to borrow Haskell's "infix" notation as it seems incredibly convenient. Rust already has limited form of
       this with `+,-,*,/,...` operator overloading de-referencing to Traits, but I wonder if there's a way to to do this
-      in a more systematic and generalized way? Like e.g. infix constructor types for enum variants?
+      in a more systematic and generalized way? Like e.g. infix constructor types for enum variants? Maybe look into how
+      Kotlin/Scala do its infix notation support?? (and operator overloading in general)
     + Haskell has "do-notation" for monads, and Rust has "question-mark" syntax for `Result`, `Option` and so on.
       Perhaps I could conceptually merge these two??
 - I want to use Haskell's "deferred typecheking" algorithm where they turn type-constraints into a constraint-solving
