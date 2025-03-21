@@ -12,7 +12,9 @@ The idea for this language is to combine 4 different languages into one that I w
     + This also means no more "object safety" rules that restrict which traits can and cannot be trait-objects (i.e.
       dynamically dispatched interfaces.) But the reason why object-safety exists in Rust is because trait-objects are
       considered to be "unsized" so the compiler doesn't know how much stack-space they require for allocation. So these
-      fat-pointers are gonna need to include that information somewhere I guess??
+      fat-pointers are gonna need to include that sizing information somewhere I guess?? Then it might be wize to keep
+      Rust's `dyn Trait` syntax to indicate that a trait is being dynamically dispatched (and hence the runtime overhead
+      is explicitly shown.)
     + Although I'd still have to see what things should be considered part of the "unsafe" block? Unsafe generally means
       it can create undefined behavior, or is something simmilar. What kinds of things in Go can create this? Can Go's
       pointer arithmetic lead to UB? Should I still have a notion of mutable and immutable references/pointers? If so,
@@ -36,6 +38,9 @@ The idea for this language is to combine 4 different languages into one that I w
       parameter.
     + Although maybe I will have to think about this a little more, perhaps Haskell-style syntax for generics is
       superior still...? I.e. no extra brackets or weird things, just `T a b` or whatnot?
+    + I will have to think more about how this interacts with Rust's turbo-fish syntax, e.g. `Foo::<i32>::bar()`?? Maybe
+      best to abandon altogether, in favor of Haskell-like visible type application, e.g. `show (read @Int "5")`..., but
+      will have to think more how this interacts with the rest of the type-system down-the-line??
 - I want to (eventually) borrow advanced Haskell-like type-system features:
     + such as function partial application, although I'd have to think a little more how I represent functions. Rust's
       approach is to have `Fn,FnMut,FnOnce` trait-hierarchy, which is a non-uniform way of representing functions.
@@ -110,6 +115,9 @@ The idea for this language is to combine 4 different languages into one that I w
     + As mentioned in the GADTs, I want to eventually borrow may of Haskell's Kind-system features. However, I don't
       know how many of these is even theoretically portable to an imperative-language. Maybe some of these features are
       gated behind the language being a pure-FP language??? Not too sure.
+    + Haskell also has the idea of functional dependencies for typeclasses (Rust has limited version of this with
+      associated types/GATs), but it would be cool if there was somne kind of way to support this in my language. But
+      the syntax for it, I can't even begin to know what it might be.
     + Rust's macro system seems rather powerful onto itself, but Haskell's "Template Haskell" and splicing system seems
       perhaps _more_ powerful? So I want to think about borrowing that system eventually. Maybe even have both, where
       they compliment each-other? Rust's macro-system could be used for "dumb" token-stream processing to enable things

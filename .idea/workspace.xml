@@ -7,7 +7,7 @@
     <cargoProject FILE="$PROJECT_DIR$/Cargo.toml" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="50d21436-6df6-48ba-9d12-934b6ef52119" name="Changes" comment="workspace">
+    <list default="true" id="50d21436-6df6-48ba-9d12-934b6ef52119" name="Changes" comment="reflections on how to handle mutability">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
@@ -79,7 +79,7 @@
       <workItem from="1742593125872" duration="10000" />
       <workItem from="1742593138898" duration="87000" />
       <workItem from="1742593226282" duration="10000" />
-      <workItem from="1742593239464" duration="303000" />
+      <workItem from="1742593239464" duration="1110000" />
     </task>
     <task id="LOCAL-00001" summary="workspace">
       <option name="closed" value="true" />
@@ -89,7 +89,15 @@
       <option name="project" value="LOCAL" />
       <updated>1742593093483</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="reflections on how to handle mutability">
+      <option name="closed" value="true" />
+      <created>1742593600880</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1742593600880</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -108,6 +116,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="workspace" />
-    <option name="LAST_COMMIT_MESSAGE" value="workspace" />
+    <MESSAGE value="reflections on how to handle mutability" />
+    <option name="LAST_COMMIT_MESSAGE" value="reflections on how to handle mutability" />
   </component>
 </project>
