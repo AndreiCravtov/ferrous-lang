@@ -7,7 +7,7 @@
     <cargoProject FILE="$PROJECT_DIR$/Cargo.toml" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="50d21436-6df6-48ba-9d12-934b6ef52119" name="Changes" comment="added more thoughts about higher-ranked polymorphism and algebraic types">
+    <list default="true" id="50d21436-6df6-48ba-9d12-934b6ef52119" name="Changes" comment="bunch more papers to do with algebraic-effect-types">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
@@ -79,7 +79,7 @@
       <workItem from="1742593125872" duration="10000" />
       <workItem from="1742593138898" duration="87000" />
       <workItem from="1742593226282" duration="10000" />
-      <workItem from="1742593239464" duration="18703000" />
+      <workItem from="1742593239464" duration="19505000" />
     </task>
     <task id="LOCAL-00001" summary="workspace">
       <option name="closed" value="true" />
@@ -145,7 +145,15 @@
       <option name="project" value="LOCAL" />
       <updated>1742606886497</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="bunch more papers to do with algebraic-effect-types">
+      <option name="closed" value="true" />
+      <created>1742616556143</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1742616556143</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -170,6 +178,7 @@
     <MESSAGE value="workspace" />
     <MESSAGE value="added thoughts (and resources) on mutability-tracking" />
     <MESSAGE value="added more thoughts about higher-ranked polymorphism and algebraic types" />
-    <option name="LAST_COMMIT_MESSAGE" value="added more thoughts about higher-ranked polymorphism and algebraic types" />
+    <MESSAGE value="bunch more papers to do with algebraic-effect-types" />
+    <option name="LAST_COMMIT_MESSAGE" value="bunch more papers to do with algebraic-effect-types" />
   </component>
 </project>
