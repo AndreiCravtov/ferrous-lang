@@ -122,7 +122,24 @@ The idea for this language is to combine 4 different languages into one that I w
         * Could use static analyzers like Infer (Facebook) or VeriFast, to reason about memory-access permissions. Here
           is a [paper](https://www.eis.mdx.ac.uk/staffpages/r_bornat/papers/fractional_permissions.pdf) on it. HOWEVER
           the integration into my compiler may be hella difficult, and limited to specific code patterns.
-        * Escape analysis (a la Go and Java) for local/stack references could be used as a part of this puzzle..
+        * Escape analysis (a la Go and Java) for local/stack references could be used as a part of this puzzle.
+          Especially in the case
+          of [Go's escape analysis](https://medium.com/@trinad536/escape-analysis-in-golang-fc81b78f3550) you can return
+          a pointer to a locally-scoped allocation e.g.
+            ```go
+            type person struct {
+              name string
+              age int
+            }
+            func newPerson(name string) *person {
+              p := person{name: name}
+              p.age = 42
+              return &p
+            }
+            ```
+          so presumably the escape-analysis determines that `p` should be allocated on the heap and the returned
+          reference is to that location on the heap. Somehow, this must be meshed with mutability-tracking so that we
+          have `*mut T` and `*T` to denote mutable and readonly pointers.
         * Just to mention a few more random
           resources: [capability based security with effects](https://arxiv.org/abs/2005.11444), Rust's
           new [Polonius](https://github.com/rust-lang/polonius/) borrow checker,
@@ -132,7 +149,9 @@ The idea for this language is to combine 4 different languages into one that I w
           but is a student-thesis
           instead, [Garbage-Collection Safety for Region-Based Type-Polymorphic Programs](https://dl.acm.org/doi/10.1145/3591229)
           which seems to be
-          right-up-my-alley, [Integrating region memory management and tag-free generational garbage collection](https://www.cambridge.org/core/journals/journal-of-functional-programming/article/integrating-region-memory-management-and-tagfree-generational-garbage-collection/782D317A9B811CD99FA0E924A35B6A58), [Liveness-Based Garbage Collection](https://www.cl.cam.ac.uk/~am21/papers/cc14.pdf), [Safe Garbage Collection = Regions + Intensional Type Analysis](https://www.cs.princeton.edu/techreports/1999/609.pdf).
+          right-up-my-alley, [Integrating region memory management and tag-free generational garbage collection](https://www.cambridge.org/core/journals/journal-of-functional-programming/article/integrating-region-memory-management-and-tagfree-generational-garbage-collection/782D317A9B811CD99FA0E924A35B6A58), [Liveness-Based Garbage Collection](https://www.cl.cam.ac.uk/~am21/papers/cc14.pdf), [Safe Garbage Collection = Regions + Intensional Type Analysis](https://www.cs.princeton.edu/techreports/1999/609.pdf), [Parallelism in a Region Inference Context](https://dl.acm.org/doi/10.1145/3591256)
+          probably deals with concurrency primitives in light of region-inference and Golang has pretty neat concurrency
+          features like "goroutines" and "channels" which I definitely wanna borrow.
         * There is also an experimental [Effekt Language](https://effekt-lang.org/) for effect-tracking, which splits
           the type-system into [Value vs. Computation types](https://effekt-lang.org/tour/computation) which may include
           mutability via [regions](https://effekt-lang.org/tour/regions)??
