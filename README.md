@@ -48,7 +48,8 @@ The idea for this language is to combine 4 different languages into one that I w
           write something like this `flip :: forall a b c. (a -> b -> c) -> b -> a -> c` adding the quantification
           keyword into the signature itself.
 - I want this language to have a Go-style garbage collector and Go-style dynamic-dispatch of interfaces (aka traits)
-  using a fat-pointer to store polymorphism information (rather than vtable like C++)
+  [using a fat-pointer to store polymorphism information](https://research.swtch.com/interfaces) (rather than vtable
+  like C++, although this may have downsides)
     + this means no need for borrow checker, lifetimes, manual memory management, etc. Essentially a garbage collected,
       performant, rich-typesystem language. (Eliminating lifetimes means lots of things become a lot less convoluted,
       implementation wise AND language-design wise.)
@@ -65,7 +66,58 @@ The idea for this language is to combine 4 different languages into one that I w
       borrowing with `&mut T`) or something??
     + Speaking of mutability, maybe I can follow Kotlin's on how they approach mutability-by-default? For references,
       maybe use runtime checks for preventing concurrent access (Go-style) or even runtime borrow-checker (like Swift’s
-      exclusivity checks) or maybe even `Rc<RefCell<T>>` syntax sugar?? Not quite sure...
+      exclusivity checks) or maybe even `Rc<RefCell<T>>` syntax sugar??
+        * Once idea could be to *still* have lifetimes internal to the compiler but not expose them to the user? So
+          maybe have a special internal lifetime `'gc` which represents how long a GC-d reference lives?? And then all
+          references are GC'd so `'a: 'gc` for all `'a`. Then that might go somewhere, not sure?
+        * SEE: Cyclone is a safe dialect of C that
+          has [region-based](https://www.cs.umd.edu/projects/cyclone/papers/cyclone-regions.pdf) (i.e. lifetimes) memory
+          management, and garbage collection. So kinda a lil-bit like this language, maybe have a look and borrow some
+          ideas of how they handle
+          mutable access?
+            - [Here is a blog](https://pling.jondgoodwin.com/post/cyclone/) that explores more about Rust-Cyclone
+              connection. Interesting bits: apparently languages have looked for better mutable, aliasing solutions for
+              decades. Ada’s limited types, C’s `restrict`, C++’s strict aliasing rules, Fortran’s argument non-aliasing
+              restrictions, [Flexible Alias Protection](https://janvitek.org/pubs/ecoop98.pdf) for Java, and academic
+              work on fractional permissions and (again) separation logic.
+              As it turns out, linear logic is not just a valuable memory management strategy. It is also a valuable
+              aliasing and data race strategy. Clean introduced uniqueness types in 1992 for IO handling and destructive
+              updates. Later languages, like ATS, Alms, and Mezzo, explored this idea in different ways. The Rust team
+              was in touch with these teams, and stayed abreast of a wealth
+              of [research](https://www.cs.cmu.edu/~carsten/linearbib/llb.html) underway at the same time.
+              Rust’s resulting ownership-based model is largely based on the mutual exclusion idea that one either has a
+              single mutable reference to an object, or possibly-multiple immutable references to that object. Abiding
+              by this restriction eliminates the problems cited earlier, and makes it safe to transfer mutable data
+              locklessly from one thread to another. Rust’s extensive approach
+              to [fearless concurrency](https://blog.rust-lang.org/2015/04/10/Fearless-Concurrency.html) relies on much
+              more than this, but this aspect is an important contributor.
+            - Cyclone seems to heavily rely on "Linear/affine types" and "linear logic" in general, as a backbone to
+              their "regions", and they also have a concept called "effect-sets" closely linked to this?? Is this linked
+              to dependent types somehow? From Reddit: "If you look at the Curry-Howard isomorphism then linear type
+              systems correspond to those where sub-structural logic rules (eg weakening and contraction) are reflected
+              in the types."
+            - Something, something, move semantics??
+            - They also seem to have "existential types" which I might borrow, unless its just Rust's return-position
+              `impls`...
+        * Here is a paper on [combining region-inference and GC](https://dl.acm.org/doi/10.1145/512529.512547)
+        * Leaning in on the "linear types" thing, here a paper on uniqueness
+          types: [Uniqueness Typing Simplified](https://link.springer.com/chapter/10.1007/978-3-540-85373-2_12),
+          and [austral](https://github.com/austral/austral) is a systems language with linear types. There is
+          also [clean](https://clean-lang.org/) language which has uniqueness types; there is
+          also [Linear Haskell](https://arxiv.org/pdf/1710.09756) which extends Haskell with linear types for resource
+          safety, but also Haskell's `LinearTypes` extension.
+        * Leaning in on the "capabilities" or "effect-sets" thing, you could track ownership through static
+          capabilities (e.g., mutable vs. immutable). For example [Pony](https://www.ponylang.io/) uses reference
+          capabilities (`iso`, `val`, `ref`) to ensure data-race freedom. There is also this
+          paper: [Ownership Types for Safe Programming](https://web.eecs.umich.edu/~bchandra/publications/oopsla02.pdf)
+        * Could use static analyzers like Infer (Facebook) or VeriFast, to reason about memory-access permissions. Here
+          is a [paper](https://www.eis.mdx.ac.uk/staffpages/r_bornat/papers/fractional_permissions.pdf) on it. HOWEVER
+          the integration into my compiler may be hella difficult, and limited to specific code patterns.
+        * Escape analysis (a la Go and Java) for local/stack references could be used as a part of this puzzle..
+        * Just to mention a few more random
+          resources: [capability based security with effects](https://arxiv.org/abs/2005.11444), Rust's
+          new [Polonius](https://github.com/rust-lang/polonius/) borrow checker,
+          Rust's [Oxide](https://arxiv.org/abs/1903.00982) paper
     + Also perhaps I could merge the notion of Go's "unsafe" package and Rust's "unsafe" blocks? Something to think
       about...
     + Also Go's interfaces are nominally typed while Rust's traits (and Haskell's typeclasses) are extremely nominally

@@ -7,7 +7,10 @@
     <cargoProject FILE="$PROJECT_DIR$/Cargo.toml" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="50d21436-6df6-48ba-9d12-934b6ef52119" name="Changes" comment="added more reflections on functional dependencies" />
+    <list default="true" id="50d21436-6df6-48ba-9d12-934b6ef52119" name="Changes" comment="workspace">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -76,7 +79,7 @@
       <workItem from="1742593125872" duration="10000" />
       <workItem from="1742593138898" duration="87000" />
       <workItem from="1742593226282" duration="10000" />
-      <workItem from="1742593239464" duration="4637000" />
+      <workItem from="1742593239464" duration="10614000" />
     </task>
     <task id="LOCAL-00001" summary="workspace">
       <option name="closed" value="true" />
@@ -118,7 +121,15 @@
       <option name="project" value="LOCAL" />
       <updated>1742597754611</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="workspace">
+      <option name="closed" value="true" />
+      <created>1742598588919</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1742598588919</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -136,11 +147,11 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="workspace" />
     <MESSAGE value="reflections on how to handle mutability" />
     <MESSAGE value="more reflections on trait objects, type-applications/turbofish syntax, and functional dependencies" />
     <MESSAGE value="added more reflections on &quot;generic eliding&quot;" />
     <MESSAGE value="added more reflections on functional dependencies" />
-    <option name="LAST_COMMIT_MESSAGE" value="added more reflections on functional dependencies" />
+    <MESSAGE value="workspace" />
+    <option name="LAST_COMMIT_MESSAGE" value="workspace" />
   </component>
 </project>
