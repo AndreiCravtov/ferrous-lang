@@ -47,6 +47,10 @@ The idea for this language is to combine 4 different languages into one that I w
           function body and function signature, while Haskell has the luxury of having them separate, so it can easily
           write something like this `flip :: forall a b c. (a -> b -> c) -> b -> a -> c` adding the quantification
           keyword into the signature itself.
+        * A stack-exchange question
+          that [further elaborates on Rank-N parametric polymorphism](https://softwareengineering.stackexchange.com/questions/277048/is-higher-rank-parametric-polymorphism-useful)
+          and another one
+          about [ad-hoc vs. parametric polymorphism](https://stackoverflow.com/questions/6730126/parametric-polymorphism-vs-ad-hoc-polymorphism).
 - I want this language to have a Go-style garbage collector and Go-style dynamic-dispatch of interfaces (aka traits)
   [using a fat-pointer to store polymorphism information](https://research.swtch.com/interfaces) (rather than vtable
   like C++, although this may have downsides)
@@ -117,7 +121,10 @@ The idea for this language is to combine 4 different languages into one that I w
         * Just to mention a few more random
           resources: [capability based security with effects](https://arxiv.org/abs/2005.11444), Rust's
           new [Polonius](https://github.com/rust-lang/polonius/) borrow checker,
-          Rust's [Oxide](https://arxiv.org/abs/1903.00982) paper
+          Rust's [Oxide](https://arxiv.org/abs/1903.00982) paper.
+        * There is also an experimental [Effekt Language](https://effekt-lang.org/) for effect-tracking, which splits
+          the type-system into [Value vs. Computation types](https://effekt-lang.org/tour/computation) which may include
+          mutability via [regions](https://effekt-lang.org/tour/regions)??
     + Also perhaps I could merge the notion of Go's "unsafe" package and Rust's "unsafe" blocks? Something to think
       about...
     + Also Go's interfaces are nominally typed while Rust's traits (and Haskell's typeclasses) are extremely nominally
