@@ -121,7 +121,13 @@ The idea for this language is to combine 4 different languages into one that I w
         * Just to mention a few more random
           resources: [capability based security with effects](https://arxiv.org/abs/2005.11444), Rust's
           new [Polonius](https://github.com/rust-lang/polonius/) borrow checker,
-          Rust's [Oxide](https://arxiv.org/abs/1903.00982) paper.
+          Rust's [Oxide](https://arxiv.org/abs/1903.00982)
+          paper, [Higher ranked region inference for compile-time garbage
+          collection](https://studenttheses.uu.nl/bitstream/handle/20.500.12932/33775/document.pdf) which isn't a paper
+          but is a student-thesis
+          instead, [Garbage-Collection Safety for Region-Based Type-Polymorphic Programs](https://dl.acm.org/doi/10.1145/3591229)
+          which seems to be
+          right-up-my-alley, [Integrating region memory management and tag-free generational garbage collection](https://www.cambridge.org/core/journals/journal-of-functional-programming/article/integrating-region-memory-management-and-tagfree-generational-garbage-collection/782D317A9B811CD99FA0E924A35B6A58), [Liveness-Based Garbage Collection](https://www.cl.cam.ac.uk/~am21/papers/cc14.pdf), [Safe Garbage Collection = Regions + Intensional Type Analysis](https://www.cs.princeton.edu/techreports/1999/609.pdf).
         * There is also an experimental [Effekt Language](https://effekt-lang.org/) for effect-tracking, which splits
           the type-system into [Value vs. Computation types](https://effekt-lang.org/tour/computation) which may include
           mutability via [regions](https://effekt-lang.org/tour/regions)??
