@@ -64,7 +64,10 @@ The idea for this language is to combine 4 different languages into one that I w
       Rust's `dyn Trait` syntax to indicate that a trait is being dynamically dispatched (and hence the runtime overhead
       is explicitly shown.) Also to do with the whole "size" of types
       business, [here is an article](https://smallcultfollowing.com/babysteps/blog/2024/04/23/dynsized-unsized/)
-      describing it in more detail
+      describing it in more detail and
+      also [must move article](https://smallcultfollowing.com/babysteps/blog/2023/03/16/must-move-types/) which
+      describes the idea of "drop-able" types being an additional trait-requirement, meaning `T: ?Drop` would be a
+      requirement that enforces must-move semantics.
     + Although I'd still have to see what things should be considered part of the "unsafe" block? Unsafe generally means
       it can create undefined behavior, or is something simmilar. What kinds of things in Go can create this? Can Go's
       pointer arithmetic lead to UB? Should I still have a notion of mutable and immutable references/pointers? If so,
