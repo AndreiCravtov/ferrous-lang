@@ -125,6 +125,18 @@ The idea for this language is to combine 4 different languages into one that I w
         * There is also an experimental [Effekt Language](https://effekt-lang.org/) for effect-tracking, which splits
           the type-system into [Value vs. Computation types](https://effekt-lang.org/tour/computation) which may include
           mutability via [regions](https://effekt-lang.org/tour/regions)??
+            - In a similar vein of experimental languages, there
+              is [Koka](https://koka-lang.github.io/koka/doc/index.html), [Links](https://links-lang.org/), [Frank](https://arxiv.org/abs/1611.09259)
+            - Also papers for more complex features like rank-2 polymorphism
+              like [Evidently](https://dl.acm.org/doi/10.1145/3408981) or more specifically they link to
+              this [Koka paper](https://arxiv.org/abs/1406.2061), [Abstraction-safe effect handlers via tunneling](https://dl.acm.org/doi/10.1145/3290318), [Generalized Evidence Passing for Effect Handlers](https://www.microsoft.com/en-us/research/wp-content/uploads/2021/08/genev-icfp21.pdf), [Inferring Algebraic Effects](https://arxiv.org/pdf/1312.2334)
+              something about dependent-type systems with algebraic types BUT MORE IMPORTANTLY it deals with GARBAGE
+              COLLECTED REGIONS
+              OMG!!!!, [First-Class Names for Effect Handlers](https://prg.is.titech.ac.jp/papers/pdf/oopsla2022.pdf)
+              gives explicit names to handlers AND ALSO USES rank-2
+              stuff!!!, [Refinement Type System for Algebraic Effects and Handlers](https://arxiv.org/abs/2307.15463)
+              use refinement types to model algebraic effects I
+              think, [Efficient compilation of algebraic effect handlers](https://dl.acm.org/doi/10.1145/3485479).
     + Also perhaps I could merge the notion of Go's "unsafe" package and Rust's "unsafe" blocks? Something to think
       about...
     + Also Go's interfaces are nominally typed while Rust's traits (and Haskell's typeclasses) are extremely nominally
