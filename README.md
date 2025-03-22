@@ -144,7 +144,8 @@ The idea for this language is to combine 4 different languages into one that I w
           resources: [capability based security with effects](https://arxiv.org/abs/2005.11444), Rust's
           new [Polonius](https://github.com/rust-lang/polonius/) borrow checker,
           Rust's [Oxide](https://arxiv.org/abs/1903.00982)
-          paper, [Higher ranked region inference for compile-time garbage
+          paper, [RustBelt](https://people.mpi-sws.org/~dreyer/papers/rustbelt/paper.pdf) which formalizes Rust as
+          typed-lambda-calculus, [Higher ranked region inference for compile-time garbage
           collection](https://studenttheses.uu.nl/bitstream/handle/20.500.12932/33775/document.pdf) which isn't a paper
           but is a student-thesis
           instead, [Garbage-Collection Safety for Region-Based Type-Polymorphic Programs](https://dl.acm.org/doi/10.1145/3591229)
