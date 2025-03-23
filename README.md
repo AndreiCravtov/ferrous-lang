@@ -140,19 +140,34 @@ The idea for this language is to combine 4 different languages into one that I w
           so presumably the escape-analysis determines that `p` should be allocated on the heap and the returned
           reference is to that location on the heap. Somehow, this must be meshed with mutability-tracking so that we
           have `*mut T` and `*T` to denote mutable and readonly pointers.
-        * Just to mention a few more random
-          resources: [capability based security with effects](https://arxiv.org/abs/2005.11444), Rust's
-          new [Polonius](https://github.com/rust-lang/polonius/) borrow checker,
-          Rust's [Oxide](https://arxiv.org/abs/1903.00982)
-          paper, [RustBelt](https://people.mpi-sws.org/~dreyer/papers/rustbelt/paper.pdf) which formalizes Rust as
-          typed-lambda-calculus, [Higher ranked region inference for compile-time garbage
-          collection](https://studenttheses.uu.nl/bitstream/handle/20.500.12932/33775/document.pdf) which isn't a paper
-          but is a student-thesis
-          instead, [Garbage-Collection Safety for Region-Based Type-Polymorphic Programs](https://dl.acm.org/doi/10.1145/3591229)
-          which seems to be
-          right-up-my-alley, [Integrating region memory management and tag-free generational garbage collection](https://www.cambridge.org/core/journals/journal-of-functional-programming/article/integrating-region-memory-management-and-tagfree-generational-garbage-collection/782D317A9B811CD99FA0E924A35B6A58), [Liveness-Based Garbage Collection](https://www.cl.cam.ac.uk/~am21/papers/cc14.pdf), [Safe Garbage Collection = Regions + Intensional Type Analysis](https://www.cs.princeton.edu/techreports/1999/609.pdf), [Parallelism in a Region Inference Context](https://dl.acm.org/doi/10.1145/3591256)
-          probably deals with concurrency primitives in light of region-inference and Golang has pretty neat concurrency
-          features like "goroutines" and "channels" which I definitely wanna borrow.
+        * Here are some Rust-specific resources
+            - [Polonius](https://github.com/rust-lang/polonius/) borrow checker which has a paper about it somewhere
+              also
+            - [Oxide](https://arxiv.org/abs/1903.00982) paper
+            - [RustBelt](https://people.mpi-sws.org/~dreyer/papers/rustbelt/paper.pdf) which formalizes Rust as
+              typed-lambda-calculus and has stuff like continuation-passing-style formalizations
+            - [A Grounded Conceptual Model for Ownership Types in Rust](https://dl.acm.org/doi/pdf/10.1145/3622841)
+              describes a concept of Rust's pointers/paths which is to me a lil confusing AND
+              ALSO [a blog](https://cfallin.org/blog/2024/06/12/rust-path-generics/) about Rust path generics
+            - [this blogpost](https://smallcultfollowing.com/babysteps/blog/2024/06/02/the-borrow-checker-within/) for
+              extensions to the borrow-checker,
+              and [this blogpost](https://smallcultfollowing.com/babysteps/blog/2024/03/04/borrow-checking-without-lifetimes/)
+              for an alternative formulation of Rust's lifetimes as "places"
+        * Just to mention a few more random resources:
+            - [capability based security with effects](https://arxiv.org/abs/2005.11444)
+            - [Higher ranked region inference for compile-time garbage
+              collection](https://studenttheses.uu.nl/bitstream/handle/20.500.12932/33775/document.pdf) which isn't a
+              paper but is a student-thesis instead, and seems
+              a [sequel paper](https://studenttheses.uu.nl/bitstream/handle/20.500.12932/41246/Hanno%20Ottens%20-%20Master%20Thesis%2009-08-2021.pdf)
+              on the same topic
+            - [Garbage-Collection Safety for Region-Based Type-Polymorphic Programs](https://dl.acm.org/doi/10.1145/3591229)
+              which seems to be right-up-my-alley
+            - [Integrating region memory management and tag-free generational garbage collection](https://www.cambridge.org/core/journals/journal-of-functional-programming/article/integrating-region-memory-management-and-tagfree-generational-garbage-collection/782D317A9B811CD99FA0E924A35B6A58)
+            - [Liveness-Based Garbage Collection](https://www.cl.cam.ac.uk/~am21/papers/cc14.pdf),
+            - [Safe Garbage Collection = Regions + Intensional Type Analysis](https://www.cs.princeton.edu/techreports/1999/609.pdf)
+            - [Parallelism in a Region Inference Context](https://dl.acm.org/doi/10.1145/3591256) probably deals with
+              concurrency primitives in light of region-inference and Golang has pretty neat concurrency features like "
+              goroutines" and "channels" which I definitely wanna borrow.
         * There is also an experimental [Effekt Language](https://effekt-lang.org/) for effect-tracking, which splits
           the type-system into [Value vs. Computation types](https://effekt-lang.org/tour/computation) which may include
           mutability via [regions](https://effekt-lang.org/tour/regions)??
