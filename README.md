@@ -153,6 +153,9 @@ The idea for this language is to combine 4 different languages into one that I w
               extensions to the borrow-checker,
               and [this blogpost](https://smallcultfollowing.com/babysteps/blog/2024/03/04/borrow-checking-without-lifetimes/)
               for an alternative formulation of Rust's lifetimes as "places"
+            - [Safe, Flexible Aliasing with Deferred Borrows](https://cfallin.org/pubs/ecoop2020_defborrow.pdf) recent
+              paper about borrowing <= THIS MIGHT GENUINELY BE AMAZING FOR ME BTW it uses something called "
+              path-dependent-types" which can also be found in Scala
         * Just to mention a few more random resources:
             - [capability based security with effects](https://arxiv.org/abs/2005.11444)
             - [Higher ranked region inference for compile-time garbage
