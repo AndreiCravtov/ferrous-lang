@@ -1,0 +1,15 @@
+{
+  "defaultViewMode": "preview",
+  "vimMode": false,
+  "attachmentFolderPath": "attachments",
+  "readableLineLength": false,
+  "alwaysUpdateLinks": true,
+  "propertiesInDocument": "source",
+  "pdfExportSettings": {
+    "includeName": true,
+    "pageSize": "A4",
+    "landscape": false,
+    "margin": "0",
+    "downscalePercent": 75
+  }
+}

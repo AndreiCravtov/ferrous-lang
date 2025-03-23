@@ -1,0 +1,11 @@
+{
+  "cssTheme": "Minimal",
+  "theme": "moonstone",
+  "baseFontSize": 22,
+  "baseFontSizeAction": true,
+  "interfaceFontFamily": "",
+  "enabledCssSnippets": [
+    "wide-notes",
+    "clean-embeds"
+  ]
+}
