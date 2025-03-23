@@ -173,7 +173,8 @@ The idea for this language is to combine 4 different languages into one that I w
               goroutines" and "channels" which I definitely wanna borrow.
             - [Region-based Resource Management and Lexical Exception Handlers in Continuation-Passing Style](https://link.springer.com/chapter/10.1007/978-3-030-99336-8_18)
               this may be necessary if I ever wish to actually formalize my language as Continuation-Passing-Style with
-              lexical-regions.
+              lexical-regions, and relatedly transforming CPS to SSA
+              with [Verified Transformation of Continuation-Passing Style into Static Single Assignment Form](https://dl.acm.org/doi/10.1007/978-3-031-35257-7_2).
         * There is also an experimental [Effekt Language](https://effekt-lang.org/) for effect-tracking, which splits
           the type-system into [Value vs. Computation types](https://effekt-lang.org/tour/computation) which may include
           mutability via [regions](https://effekt-lang.org/tour/regions)??
