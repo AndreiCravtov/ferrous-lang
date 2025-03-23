@@ -145,7 +145,10 @@ The idea for this language is to combine 4 different languages into one that I w
           new [Polonius](https://github.com/rust-lang/polonius/) borrow checker,
           Rust's [Oxide](https://arxiv.org/abs/1903.00982)
           paper, [RustBelt](https://people.mpi-sws.org/~dreyer/papers/rustbelt/paper.pdf) which formalizes Rust as
-          typed-lambda-calculus, [Higher ranked region inference for compile-time garbage
+          typed-lambda-calculus, [A Grounded Conceptual Model for Ownership Types in Rust](https://dl.acm.org/doi/pdf/10.1145/3622841)
+          describes a concept of Rust's pointers/paths which is to me a lil confusing AND
+          ALSO [a blog](https://cfallin.org/blog/2024/06/12/rust-path-generics/) about Rust path
+          generics, [Higher ranked region inference for compile-time garbage
           collection](https://studenttheses.uu.nl/bitstream/handle/20.500.12932/33775/document.pdf) which isn't a paper
           but is a student-thesis
           instead, [Garbage-Collection Safety for Region-Based Type-Polymorphic Programs](https://dl.acm.org/doi/10.1145/3591229)
