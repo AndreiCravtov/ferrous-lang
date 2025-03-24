@@ -1,20 +1,40 @@
 # Kinds, contexts, and `Constraint`-kinded types
-Haskell has the concept of **kind** of a **type**, i.e. the "type" of a **type** (this [might not be strictly true](https://serokell.io/blog/datakinds-are-not-what-you-think) but good enough for intuition)
+
+Haskell has the concept of **kind** of a **type**, i.e. the "type" of a **type** (
+this [might not be strictly true](https://serokell.io/blog/datakinds-are-not-what-you-think) but good enough for
+intuition)
+
 - Values have a **type**, i.e. `constNum :: Int`, `flip :: (a -> b -> c) -> b -> a -> c`, etc.
 - Types have **kind**, i.e. `Int :: Type`, `Maybe :: Type -> Type`, etc.
 
-Normally **constraints**, which appear in **type**s before `=>` arrow e.g. `eq :: Eq a => a -> a -> Bool`, have a very restricted syntax
+Normally **constraints**, which appear in **type**s before `=>` arrow e.g. `eq :: Eq a => a -> a -> Bool`, have a very
+restricted syntax
+
 - Class constraints, e.g. `Eq a`
-- [Implicit parameter](https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/implicit_parameters.html) constraints, e.g. `?x::Int`
+- [Implicit parameter](https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/implicit_parameters.html) constraints,
+  e.g. `?x::Int`
 - [Equality](https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/equality_constraints.html), e.g. `a ~ Int`
 
-And with [ConstraintKinds](https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/constraint_kind.html) *(and [FlexibleContexts](https://downloads.haskell.org/ghc/9.0.1/docs/html/users_guide/exts/flexible_contexts.html) and to make it useful)* you get a new `Constraint` **kind**, and all **constraint**s `c` are **type**s `c :: Constraint`.
-- Classes become **type**s of **kind** e.g. `Eq :: Type -> Constraint` so `Eq a :: Constraint` and so on for all _sorts_ of other higher-kinded constructions
-- I'm guessing [Equality](https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/equality_constraints.html) becomes a `type` of the kind `(~) :: Type -> Type -> Constraint` ?? although I'm not quite too _sure_ if its actually [kind-polymorphic](https://downloads.haskell.org/ghc/9.6.0.20230128/docs/users_guide/exts/poly_kinds.html)  i.e. its `(~) :: forall k. k -> k -> Constraint`, and if I can partially apply such a type with type-applications?
-- Tuples of **constraints** become themselves **constraints**, e.g. `(Show a, Ord a) :: Constraint`. But does this mean tuples become [kind-polymorphic](https://downloads.haskell.org/ghc/9.6.0.20230128/docs/users_guide/exts/poly_kinds.html), in the sense that the type constructor is `(,) :: forall k. k -> k -> k` ?? That would make sense for why tuples of **constraints** are _themselves_ **constraints** and why tuples of `Type`s are themselves `Type`s. 
-- Type-aliases are now allowed to use `Constraint`-**kind**ed type parameters. For example `type Foo (f :: Type -> Constraint) = forall b. f b => b -> b` is allowed.
+And with [ConstraintKinds](https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/constraint_kind.html) *(
+and [FlexibleContexts](https://downloads.haskell.org/ghc/9.0.1/docs/html/users_guide/exts/flexible_contexts.html) and to
+make it useful)* you get a new `Constraint` **kind**, and all **constraint**s `c` are **type**s `c :: Constraint`.
 
-In Haskell, **constraints** like `Eq a =>` are syntactic sugar for *implicitly passing type-class dictionaries* (records of functions/methods) as arguments. For example:
+- Classes become **type**s of **kind** e.g. `Eq :: Type -> Constraint` so `Eq a :: Constraint` and so on for all _sorts_
+  of other higher-kinded constructions
+- I'm guessing [Equality](https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/equality_constraints.html) becomes a
+  `type` of the kind `(~) :: Type -> Type -> Constraint` ?? although I'm not quite too _sure_ if its
+  actually [kind-polymorphic](https://downloads.haskell.org/ghc/9.6.0.20230128/docs/users_guide/exts/poly_kinds.html)
+  i.e. its `(~) :: forall k. k -> k -> Constraint`, and if I can partially apply such a type with type-applications?
+- Tuples of **constraints** become themselves **constraints**, e.g. `(Show a, Ord a) :: Constraint`. But does this mean
+  tuples
+  become [kind-polymorphic](https://downloads.haskell.org/ghc/9.6.0.20230128/docs/users_guide/exts/poly_kinds.html), in
+  the sense that the type constructor is `(,) :: forall k. k -> k -> k` ?? That would make sense for why tuples of *
+  *constraints** are _themselves_ **constraints** and why tuples of `Type`s are themselves `Type`s.
+- Type-aliases are now allowed to use `Constraint`-**kind**ed type parameters. For example
+  `type Foo (f :: Type -> Constraint) = forall b. f b => b -> b` is allowed.
+
+In Haskell, **constraints** like `Eq a =>` are syntactic sugar for*implicitly passing type-class dictionaries*(records
+of functions/methods) as arguments. For example:
 
 ```haskell
 -- here is un-desugared code which defines typeclasses, instances, and uses typeclass-constraints in methods
@@ -54,9 +74,15 @@ foo :: Eq a -> a -> a -> Bool
 foo eq x y = eq.(==) x y -- "overloaded record dot" syntax used for clarity-effect
 
 ```
-So in general the strategy is to turn constraints into "proof values" that are compiler-generated and passed around as implicit parameters.
-- But what would this mean for like, datatype-constructors rather than functions? What does `data Foo a = Eq a => Foo a` desugar to, maybe something like `data Foo a = Foo (Eq a) a` or similar expecting that dictionary of functions to be implicitly passed as a constructor parameter?
-- What about other constraints like equality-constraints, or implicit-parameter constraints? Is the idea that they each get their own "evidence" values generated by the compiler?
+
+So in general the strategy is to turn constraints into "proof values" that are compiler-generated and passed around as
+implicit parameters.
+
+- But what would this mean for like, datatype-constructors rather than functions? What does `data Foo a = Eq a => Foo a`
+  desugar to, maybe something like `data Foo a = Foo (Eq a) a` or similar expecting that dictionary of functions to be
+  implicitly passed as a constructor parameter?
+- What about other constraints like equality-constraints, or implicit-parameter constraints? Is the idea that they each
+  get their own "evidence" values generated by the compiler?
     ```haskell
     -- I know GHC compiler has this
     data Coercible a b where
@@ -67,24 +93,47 @@ So in general the strategy is to turn constraints into "proof values" that are c
 	foo Refl x = x
     
     ```
-- How on earth does any of this interact with [kind-polymorphism](https://downloads.haskell.org/ghc/9.6.0.20230128/docs/users_guide/exts/poly_kinds.html)? Does it even have to?
+- How on earth does any of this interact
+  with [kind-polymorphism](https://downloads.haskell.org/ghc/9.6.0.20230128/docs/users_guide/exts/poly_kinds.html)? Does
+  it even have to?
 
 Here is a bunch of papers on this, read later and resolve some of these issue:
-- [How to make ad-hoc polymorphism less ad-hoc](https://dl.acm.org/doi/10.1145/75277.75283): constraints are implicit parameters carrying method implementations
-- [System F with type equality coercions](https://dl.acm.org/doi/10.1145/1190315.1190324): describes **System FC** *(intermediate language used by GHC)* where **constraints** are translated into **evidence terms** (explicit arguments) in **System FC**
-- [A theory of overloading](https://dl.acm.org/doi/10.1145/581478.581495): formalizes constraints as **dependent function types** ($\prod$-types) in a calculus, e.g. `Eq a => a -> a -> Bool` becomes $\ds \prod(\alpha : \mathrm{Type}). \prod(\mathrm{eq} : \mathrm{Eq} \ \alpha). \alpha \to \alpha \to \mathrm{Bool}$ where $\mathrm{eq}$ is the record of functions for $\alpha$.
-- [Modular Type Classes](https://dl.acm.org/doi/pdf/10.1145/1190215.1190229): describes how constraints are **elaborated** into explicit dictionary parameters during typechecking
-- [Type Checking with Open Type Functions](https://dl.acm.org/doi/10.1145/1411204.1411215): formalizes how equality constraints (`a ~ b`) are resolved via **coercion terms** that witness type equality.
-- [Giving Haskell a promotion](https://dl.acm.org/doi/10.1145/2103786.2103795) theoretical formalization of `Constraint` kinds [kind-polymorphism](https://downloads.haskell.org/ghc/9.6.0.20230128/docs/users_guide/exts/poly_kinds.html) and all sorts of other things in current Haskell's type-system
-- [Dependent Types in Haskell](https://www.cis.upenn.edu/~sweirich/papers/eisenberg-thesis.pdf): blurs the line between types and terms, treating constraints as **runtime-relevant evidence**
+
+- [How to make ad-hoc polymorphism less ad-hoc](https://dl.acm.org/doi/10.1145/75277.75283): constraints are implicit
+  parameters carrying method implementations
+- [System F with type equality coercions](https://dl.acm.org/doi/10.1145/1190315.1190324): describes **System FC** *(
+  intermediate language used by GHC)* where **constraints** are translated into**evidence terms**(explicit arguments) in
+  **System FC**
+- [A theory of overloading](https://dl.acm.org/doi/10.1145/581478.581495): formalizes constraints as**dependent function
+  types**($\prod$-types) in a calculus, e.g. `Eq a => a -> a -> Bool`
+  becomes $\ds \prod(\alpha : \mathrm{Type}). \prod(\mathrm{eq} : \mathrm{Eq} \ \alpha). \alpha \to \alpha \to \mathrm{Bool}$
+  where $\mathrm{eq}$ is the record of functions for $\alpha$.
+- [Modular Type Classes](https://dl.acm.org/doi/pdf/10.1145/1190215.1190229): describes how constraints are**elaborated
+  **into explicit dictionary parameters during typechecking
+- [Type Checking with Open Type Functions](https://dl.acm.org/doi/10.1145/1411204.1411215): formalizes how equality
+  constraints (`a ~ b`) are resolved via**coercion terms**that witness type equality.
+- [Giving Haskell a promotion](https://dl.acm.org/doi/10.1145/2103786.2103795) theoretical formalization of `Constraint`
+  kinds [kind-polymorphism](https://downloads.haskell.org/ghc/9.6.0.20230128/docs/users_guide/exts/poly_kinds.html) and
+  all sorts of other things in current Haskell's type-system
+- [Dependent Types in Haskell](https://www.cis.upenn.edu/~sweirich/papers/eisenberg-thesis.pdf): blurs the line between
+  types and terms, treating constraints as**runtime-relevant evidence**
 
 # Region constraints
-So then the idea would be to *extend* the idea of "passing around proofs" to a new kind of constraint: region constraints. 
 
-There is even a formalization of this in the paper [Region-based Resource Management and Lexical Exception Handlers in Continuation-Passing Style](https://link.springer.com/content/pdf/10.1007/978-3-030-99336-8_18.pdf) which: 
-- Defines an intermediate language $\Lambda_{\rho}$ which has type-and-effect system which keeps track of regions and is continuation-passing-style
+So then the idea would be to *extend* the idea of "passing around proofs" to a new kind of constraint: region
+constraints.
+
+There is even a formalization of this in the
+paper [Region-based Resource Management and Lexical Exception Handlers in Continuation-Passing Style](https://link.springer.com/content/pdf/10.1007/978-3-030-99336-8_18.pdf)
+which:
+
+- Defines an intermediate language $\Lambda_{\rho}$ which has type-and-effect system which keeps track of regions and is
+  continuation-passing-style
 - And also it has a CPS translation from $\Lambda_{\rho}$ to $\text{System F}$ with base types and primitive operations
-- They basically have region variables and they can be used in an _almost_ **dependently-typed** manner to produce a "type of proof" of subregioning. So if `r1,r2,Top` are region variables, then `r1 <: r2`, `r1 <: Top` are _dependent types_ which can admit values e.g. `l1: r1 <: r2` means `l1` is a subregioning proof value which has the type `r1 <: r2`. Although I said **dependently-typed** I don't actually _know_ if its truly dependently typed...
+- They basically have region variables and they can be used in an _almost_ **dependently-typed** manner to produce a "
+  type of proof" of subregioning. So if `r1,r2,Top` are region variables, then `r1 <: r2`, `r1 <: Top` are _dependent
+  types_ which can admit values e.g. `l1: r1 <: r2` means `l1` is a subregioning proof value which has the type
+  `r1 <: r2`. Although I said **dependently-typed** I don't actually _know_ if its truly dependently typed...
     ```haskell
     -- I guess continuing with the GHC's `Coercible` theme, we could have
     -- A new `Region` kind which you could use to construct sub-regioning proofs
@@ -102,6 +151,39 @@ There is even a formalization of this in the paper [Region-based Resource Manage
 	foo l1 s = ??
     
     ```
-- This is good because if I can formalize a Rust-like language into a CPS calculus, I can directly apply this paper's insights
-- Also they achieve **first-class functions** which is really dandy :)) because I _really_ don't want to adopt Rust's `Fn*` trait-hierarchy, it is cancerous haha
-- Also Rust's `Box` has method `fn leak<'a, T, A>(b: Box<T, A>) -> &'a mut T where A: 'a` where the type `T` must outlive `'a`. For types that aren't lifetime-parameterized _themselves_ this means we can create `'static` references. To me this _essentially_ feels the degenerate case of garbage collection - that is all references are live - and what would happen with all heap-allocated pointers in Go if you turn the GC off. So then maybe this insight means I can add extra "rules" for constructing the `SubRegion` proofs where if you "leak" it to then heap (i.e. garbage collected) then you automatically get something equivalent to a "static lifetime reference"?
+- This is good because if I can formalize a Rust-like language into a CPS calculus, I can directly apply this paper's
+  insights
+- Also they achieve **first-class functions** which is really dandy :)) because I _really_ don't want to adopt Rust's
+  `Fn*` trait-hierarchy, it is cancerous haha
+- Also Rust's `Box` has method `fn leak<'a, T, A>(b: Box<T, A>) -> &'a mut T where A: 'a` where the type `T` must
+  outlive `'a`. For types that aren't lifetime-parameterized _themselves_ this means we can create `'static` references.
+  To me this _essentially_ feels the degenerate case of garbage collection - that is all references are live - and what
+  would happen with all heap-allocated pointers in Go if you turn the GC off. So then maybe this insight means I can add
+  extra "rules" for constructing the `SubRegion` proofs where if you "leak" it to then heap (i.e. garbage collected)
+  then you automatically get something equivalent to a "static lifetime reference"?
+
+We might wanna read up on how Haskell
+does [linear types](https://www.microsoft.com/en-us/research/publication/linear-haskell-practical-linearity-higher-order-polymorphic-language/)
+so that owned/shared/mutable references can be encoded somehow, since _clearly_ there is an implicit "move semantics" in
+Rust meaning all types are "affine" in some sense unless explicitly `Copy`-able.
+
+- In their paper they offer "multiplicity" polymorphism so types can be **polymorphic** in their multiplicity
+  e.g. $\ds \mathrm{foldl} :: \forall p q. \ (a \to_{p} b \to_{q} \to a) \to a \to_{p} \to [b] \to_{q} \to a$
+- And obviously, as soon as you can be "polymorphic" in a particular dimension you can construct "constraints" on these
+  things. So maybe we can define another internal constraint-proof-type like `Affine (p :: Multiplicity)` which can only
+  be constructed for being used zero-or-one times?? Or maybe the fact that every block has an implicit `drop` call means
+  that multiplicity of `1` is fine? (because it will always be dropped no matter what implicitly)
+- In their paper, **type-constructors** are given automatically linear multiplicity i.e. `data T1 a = MkT1 a` has
+  `MkT1 :: a %1 -> T1 a` and when used as a value `MkT1` is given multiplicity-polymorphic type
+  `MkT1 :: forall {m} a. a %m -> T1 a`.
+- So then maybe I can define a very RESTRICTED set of multiplicity-bound types and operations which mimick Rust's
+  borrow-checker rules??
+    - Namely, all user-defined functions **always** have linear types `a %1-> b` implicitly
+    - except for _precisely only_ "reference constructors" e.g. `data Ref (r :: Region) (a :: Type) = MkRef r a` which
+      would have `MkRef :: r -> a -> Ref r a` and you could make as many of these as you liked?? And maybe that would
+      correspond to `let a: &'r T = &owned_t`, except..., ughhh, how would we "exclude" the creation of `&mut T` in the
+      presence of (live) `&T` and vice-versa? Also how would I model "reclaiming" the references? Once I have used all
+      the references and they are no longer "live" then I can begin using the original variable again (either start
+      giving out more references or use it once i.e. move ownership) not too sure how to model this.....
+    - I guess theres [this paper](https://users.cs.northwestern.edu/~jesse/pubs/alms/tovpucella-alms.pdf) on practical
+      affine types??
