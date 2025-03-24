@@ -156,6 +156,8 @@ The idea for this language is to combine 4 different languages into one that I w
             - [Safe, Flexible Aliasing with Deferred Borrows](https://cfallin.org/pubs/ecoop2020_defborrow.pdf) recent
               paper about borrowing <= THIS MIGHT GENUINELY BE AMAZING FOR ME BTW it uses something called "
               path-dependent-types" which can also be found in Scala
+            - [Stacked Borrows: An Aliasing Model for Rust](https://plv.mpi-sws.org/rustbelt/stacked-borrows/paper.pdf)
+              model of Rust's borrow-checker as "stacked borrows"
         * Just to mention a few more random resources:
             - [capability based security with effects](https://arxiv.org/abs/2005.11444)
             - [Higher ranked region inference for compile-time garbage
