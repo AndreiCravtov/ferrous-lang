@@ -276,7 +276,7 @@ The idea for this language is to combine 4 different languages into one that I w
             ```my-lang
             enum Option ??????????? {
                 None: Option[A],
-                Some: a -> Option[A]
+                Some: A -> Option[A]
             }
             ```
         * What about NON-equality constraints also? e.g. `a !~ b` ?? would that even make any sense??? Could that even

@@ -185,5 +185,4 @@ Rust meaning all types are "affine" in some sense unless explicitly `Copy`-able.
       presence of (live) `&T` and vice-versa? Also how would I model "reclaiming" the references? Once I have used all
       the references and they are no longer "live" then I can begin using the original variable again (either start
       giving out more references or use it once i.e. move ownership) not too sure how to model this.....
-    - I guess theres [this paper](https://users.cs.northwestern.edu/~jesse/pubs/alms/tovpucella-alms.pdf) on practical
-      affine types??
+    - I guess theres [this paper](https://users.cs.northwestern.edu/~jesse/pubs/alms/tovpucella-alms.pdf) on practical affine types??

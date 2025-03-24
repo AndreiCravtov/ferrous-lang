@@ -14,6 +14,7 @@ pub mod gen_flags;
 pub mod nonempty;
 pub mod opt_flags;
 pub mod recursion;
+mod recursive_instances;
 mod rust_gadt_playground;
 pub mod typelevel;
 
