@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "linear_notes/Dynamic and static dispatching + Existentials.md",
+                "file": "linear_notes/Notes on Austral & Linear System F.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Dynamic and static dispatching + Existentials"
+              "title": "Notes on Austral & Linear System F"
             }
           }
         ]
@@ -78,7 +78,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 357.5
+    "width": 228.5
   },
   "right": {
     "id": "f373991fe364cfaf",
@@ -94,8 +94,8 @@
             "state": {
               "type": "bc-matrix-view",
               "state": {},
-              "icon": "blinds",
-              "title": "Matrix view"
+              "icon": "lucide-file",
+              "title": "Plugin no longer active"
             }
           },
           {
@@ -136,12 +136,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "year_2_unconnected/probability_theory/3 - Discrete Random Variables.md",
+                "file": "linear_notes/Notes on Austral & Linear System F.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from 3 - Discrete Random Variables"
+              "title": "Outgoing links from Notes on Austral & Linear System F"
             }
           },
           {
@@ -166,11 +166,13 @@
               "title": "Plugin no longer active"
             }
           }
-        ]
+        ],
+        "currentTab": 3
       }
     ],
     "direction": "horizontal",
-    "width": 363.5
+    "width": 200,
+    "collapsed": true
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -189,6 +191,7 @@
   "active": "713aab978f7cbf3d",
   "lastOpenFiles": [
     "linear_notes/Constraint kinds thought dump.md",
+    "linear_notes/Notes on Austral & Linear System F.md",
     "linear_notes/Dynamic and static dispatching + Existentials.md",
     "linear_notes/Constraint kinds thought dump.md~",
     "Untitled.md",
@@ -228,7 +231,6 @@
     "math_atomic_notes/Expected value (probability).md",
     "math_atomic_notes/Probability mass function.md",
     "math_atomic_notes/Probability distribution.md",
-    "math_atomic_notes/Random variable.md",
     "year_2_unconnected/probability_theory",
     "prototypes",
     "TESTING_TRANSCLUSION",
