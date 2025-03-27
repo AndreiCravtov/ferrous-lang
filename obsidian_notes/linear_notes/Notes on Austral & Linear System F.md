@@ -85,7 +85,7 @@ Basically I'm thinking that I can piece together a bunch of features from all so
 	      let (wit_b, wit_b2) = dup(wit_b); // `wit_b` shaddowed
 	      let (wit_c, wit_c2) = dup(wit_c); // `wit_c` shaddowed
 	      let wit_combined: 'c <: 'main = trans<'c,'b,'main>(wit_c2, wit_b2);
-	      drop(wit);
+	      drop(wit_combined);
 	        
 	      // I am NOT ALLOWED to use `val_mut` (or `val`) within region 'c
           <..>
@@ -112,20 +112,20 @@ Basically I'm thinking that I can piece together a bunch of features from all so
 		- any operations whatsoever that "make use of" (moving, receiving, cloning, etc.) will expect a liveness-proof of the value to accompany that value; this makes those values (for all intents and purposes) linear
 		- the only way to dispose of a liveness proof (use without _actually_ using it) would be to pass it to a (compiler-generated) destructor function, i.e. `drop(live_wit, value)` which would implicitly make the values bound to liveness-proofs with destructors affine
 		- the only problem is how do I bind an INSTANCE of a value to this liveness proof ?? and how does this relate to "lifetime of value" vs. "lifetime of reference" distinction ?? I REALLY don't want to introduce another ad-hoc kind JUST for this, with usage akin to `let (t_val: Instance<T,B>, live_wit: Live<T,B>) = mk_t(..)` where `B` would be some kind of binding-type used to tie together an instance together with it's liveness proof - this would really suck and be really annoying :(
-	- Touching on the concept of "lifetimes of values" I wonder if all express the lifetime of their values as an impicit (or explicit??) `'self` lifetime?? This might be a really dumb idea however
-	- Another issue is that Rust's borrow/move checker can PARTIALLY move/borrow structures with paths (`a.b` or `a[i]`) so I need to refine this approach to be path-aware and borrow/move PATHS rather than entire values
+	- Touching on the concept of "lifetimes of values" I wonder if all express the lifetime of their values as an impicit (or explicit??) `'self` lifetime?? So that all data-types are REALLY actually `T<'self>` or something, the same way traits in Rust have an implicit generic parameter `Self` that corresponds to the first generic parameter of type-classes. This might be a really dumb idea however...
+	- Another issue is that Rust's borrow/move checker can PARTIALLY borrow/move structures with paths (`a.b` or `a[i]`) so I need to refine this approach to be path-aware and borrow/move PATHS rather than entire values
 		- This also relates to the paper [about deferred borrows](https://cfallin.org/pubs/ecoop2020_defborrow.pdf) which builds on this path-awareness to enhance it
-		- And then there is [a blog building extending that paper to path generics](https://cfallin.org/blog/2024/06/12/rust-path-generics/#:~:text=The%20genericity%20over%20a%20path,(up%20the%20call%20stack).), and [further ambitious extensions](https://smallcultfollowing.com/babysteps/blog/2024/06/02/the-borrow-checker-within/)
-		- Here is a paper on [typed path polymorphism](https://www.sciencedirect.com/science/article/pii/S0304397519301240) which describes operating on paths polymorphically - may be orthogonal to path-dependent types tho...
+		- And then there is [a blog extending that paper to path generics](https://cfallin.org/blog/2024/06/12/rust-path-generics/#:~:text=The%20genericity%20over%20a%20path,(up%20the%20call%20stack).), and also more [further ambitious extensions](https://smallcultfollowing.com/babysteps/blog/2024/06/02/the-borrow-checker-within/)
+		- Here is a paper on [typed path polymorphism](https://www.sciencedirect.com/science/article/pii/S0304397519301240) which describes operating on paths polymorphically - but may be orthogonal to path-dependent types tho...
 - Keep Rust's rank-2 region polymorphism (and maybe extend to rank-N region polymorphism??)
 - Use something akin to Cyclone's region-handles, e.g.
     ```rust
 	fn make_number<'a>(h: Handle<'a>) -> &'a mut i32 {
-	  // I haven't decided if a more BROAD statement like `use <handle> { .. }` this is fine, 
-	  // or a more fine-graned set of statements using `Handle<'a>` is appropriate;
+	  // I haven't decided if a more BROAD statement like `use <handle> { .. }` is fine, 
+	  // or a more fine-graned set of statements using `Handle<'a>` is more appropriate;
 	  let val_mut: &'a mut i32 = use h {
 	    // within the `use` statement, the typecheker thinks the current region is 'a
-	    12 // return values are "downgraded" to mutable references upon exiting the `use` scope
+	    12 // returned values are "downgraded" to mutable references upon exiting the `use` scope
 	  };
 	  drop(h);
 	  

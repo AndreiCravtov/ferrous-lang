@@ -210,6 +210,24 @@ The idea for this language is to combine 4 different languages into one that I w
     + I will have to think more about how this interacts with Rust's turbo-fish syntax, e.g. `Foo::<i32>::bar()`?? Maybe
       best to abandon altogether, in favor of Haskell-like visible type application, e.g. `show (read @Int "5")`..., but
       will have to think more how this interacts with the rest of the type-system down-the-line??
+- I **also** want to borrow the last-argument lambda syntax from Scala/Kotlin where if the last argument to a function is a lambda then it can be written "outside" that function's parameter list like this:
+        ```rust
+        // this is the range of hypothetical syntax I want to support 
+        foo(12, "foostring") |a, b| {
+          <..>
+        };
+        bar {
+          <..>
+        };
+        
+        // it should desugar into this (more ugly!!)
+        foo(12, "foostring", |a, b| {
+          <..>
+        });
+        bar(|| {
+          <..>
+        });
+        ```
 - I want to (eventually) borrow advanced Haskell-like type-system features:
     + such as function partial application, although I'd have to think a little more how I represent functions. Rust's
       approach is to have `Fn,FnMut,FnOnce` trait-hierarchy, which is a non-uniform way of representing functions.
