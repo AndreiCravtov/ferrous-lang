@@ -147,3 +147,58 @@ Basically I'm thinking that I can piece together a bunch of features from all so
     ```
 	- Cyclone also uses dynamic regions (that you can open with keys) so that might be a cool opt-in feature (with possibly dynamic-dispatch)
 	- Cyclone _also_ has a special **heap** region `H` into which you can allocate values (but not clean them up); this is somewhat akin to using Rust's `Box::leak`, and could be an "escape hatch" where (conservative) garbage collectors are allowed to be used to clean up memory; might be cool to add, but kinda iffy as to how its used right now...; is it the same?? or different?? than Rust's `'static` lifetime??
+
+# Tree borrows -> opportunities for "proof-terms"
+There is a [tree borrowing](https://perso.crans.org/vanille/treebor/) model which proposes that <u>tracking borrows</u> is done is a tree-like manner, e.g.
+![[Pasted image 20250331023800.png|700]]
+so then perhaps an idea could be to pass around "proofs" that a **tag** is not aliased at a certain location.
+
+The [pre-print tree borrow paper](https://perso.crans.org/vanille/treebor/aux/preprint.pdf) mentions the [The CompCert Memory Model](https://inria.hal.science/hal-00703441) where **memory locations** are modeled as $(a,o)$ where $a$ is the **allocation-identifier** and $o$ the **offset** into that block; a reference is then $((a,o),t)$ where $t$ is a **tag** s.t. **tree borrowing** tracks the **tree of tags**.
+
+I haven't REALLY read the whole paper so I have no idea if this is gibberish, but maybe I can have type-level tracking of allocations/aliasing/etc? Maybe something like this:
+```rust
+// maybe there is a statement/exression that has roughly this signature
+// obviously this needs refining as HELL, but something like that
+//
+// But the key idea here is the existential `T` which essentially
+// becomes the "tag" type of our allocation which can be required for
+// further operations
+rgn_new: for<'a,A> fn(A) -> for<T> Owned<'a, T, A>
+
+'main: (h: Handle<'main>) => {
+  // to make existential types more visible, I will use "existential aliases"
+  // which means if a type is existential, then the type-alias can be defined
+  // by its first usage
+  //
+  // So in the example below, the type-alias is bound to the existential type
+  // returned from the allocation/funciton statement
+  type RootTag; 
+  type RootValue = Owned<'main, RootTag, i32>;
+  let mut root: RootValue = rgn_new { 42 };
+
+  // Here would be some kind of typing that would create a
+  // type-level tree that links the tag of THIS reference-creation
+  // to the `RootTag`
+  let ref1: ?? = &mut root;
+  
+  // Same here, but instead linking the tag of THIS reference
+  // to the tag of `ref1` (and it then links to the tag of `root`)
+  let ref2 = &mut *ref1;
+
+  // similar to `ref1`
+  let ref3 = &mut root;
+
+  // the "using" these values would be guarded behind statements that
+  // temporarily disallow the usage of an identifier (hence tag-type)
+  // inside that block and also produce "proofs" of such a fact
+  //
+  // then the proofs would be combinable at the type-level JUST LIKE
+  // the types of the refs/owned themselves, such that to e.g. use the
+  // alias-of-alias-of-alias you must provide a proof with *that* level
+  // of nesting that attests to those tags (in that nesting order) being
+  // disallowed to be used within that scope
+  //
+  // but yeah I still don't know how this would look/work
+}
+
+```

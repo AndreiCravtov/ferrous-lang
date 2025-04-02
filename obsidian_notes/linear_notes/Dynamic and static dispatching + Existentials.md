@@ -153,3 +153,42 @@ enum AdvancedOption[A] {
 }
 ```
 Then clearly here I have to use the `dyn` bound `D: dyn Display` for my existential `D` as the type is runtime determined. And yet, its so much more functional/useful than rusts simple `dyn Trait` even if they both use dynamic-dispatch under-the-hood. The only thing close to this that is "static" is opaque return-position impls, which are _kind of_ like existentials in a limited way, I guess?
+
+# Fixing issues with dyn-Traits
+The current rules guiding Rust's [dyn-compatibility](https://doc.rust-lang.org/reference/items/traits.html#dyn-compatibility) is summarized below.
+
+Let $f: \operatorname{Fn}$ denote a function:
+- $\operatorname{dispatch}(f)$ denotes it being **dispatchable** meaning that:
+	- $f$ has **no non-lifetime generic** parameters
+	- where applicable, $f$ only uses the type $\operatorname{Self}$ in the receiver position (i.e. first parameter) and the type of that receiver is one of:
+		- $\operatorname{{\&}Self}$
+		- $\mathrm{Box{<}Self{>}}$
+		- $\mathrm{Rc{<}Self{>}}$
+		- $\mathrm{Arc{<}Self{>}}$
+		- $\text{Pin{<}}P\text{{>}}$ where $P$ is one of the types above
+	- Not have an opaque return type:
+		- no return-position $\text{impl Trait}$
+		- not an $\text{async fn}$ which desugars to $\text{impl Future}$
+	- Not have a $\text{where Self: Sized}$ bound
+- $\operatorname{non-dispatch}(f)$ means that it is **explicitly non-dispatchable**, meaning that it has a $\text{where Self: Sized}$ bound
+
+Let $t: \operatorname{Trait}$ be some trait, and let $f: \operatorname{Fn}$ denote a function:
+- $\operatorname{dyn}(t)$ denotes it being `dyn`-compatible
+- $\operatorname{super}(t)$ denotes the set of **super-traits** of $t$
+- $\operatorname{fn}(t)$ denotes the function-set of $t$
+- $\operatorname{dispatch}(f)$ denotes that $f$ is dispatch able
+The statement $\operatorname{dyn}(t)$ holds when:
+- $\ds \operatorname{dyn}(t) \implies \forall t_{s} \in \operatorname{super}(t). \left[ \ \operatorname{dyn}(t_{s}) \ \right]$
+- $\operatorname{Sized} \not\in \operatorname{super}(t)$
+- $t$ has no associated constants
+- $t$ has no <u>Generic Associated Types</u> (GATs)
+- $\ds \forall f_{m} \in \operatorname{fn}(t). \left[ \ \operatorname{dispatch}(f_{m}) \vee \operatorname{non-dispatch}(f_{m}) \ \right]$
+
+Here is a [dyn*](https://smallcultfollowing.com/babysteps/blog/2022/03/29/dyn-can-we-make-dyn-sized/) article which talks about possibilities of `dyn`-Traits being `Sized` which would fix many things and loosen many restrictions:
+- `dyn* Trait` means a pointer-sized value that implements `Trait`
+- generalizing, `dyn[T]` means "something layout-compatible with `T`" which means `dyn* Trait` is syntax sugar for `dyn[*const ()] Trait`
+- so e.g. `dyn[[usize; 2]] Trait` means "two-word value which implements `Trait`"
+- maybe even standalone `dyn[T]` means ability to access underlying value as if it were a `T`-instance
+	- so theoretically this could even present the idea of "views" on types...
+	- but it may be HELLLLA unsafe with edge-cases
+Here is [another one](https://smallcultfollowing.com/babysteps/blog/2025/03/25/dyn-you-have-idea-for-dyn/) by the same author.
