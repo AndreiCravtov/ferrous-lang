@@ -4,17 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "33d5950240bda3bf",
+        "id": "17b593662ad9f110",
         "type": "tabs",
         "children": [
           {
-            "id": "c66616d7dfa9a87a",
+            "id": "96e55a6964f6da39",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "linear_notes/System F<：(with Subtyping) + Separation Logic & Reachability Types.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "System F<：(with Subtyping) + Separation Logic & Reachability Types"
             }
           }
         ]
@@ -74,7 +78,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 268.5
+    "width": 384.5
   },
   "right": {
     "id": "f373991fe364cfaf",
@@ -184,17 +188,20 @@
       "obsidian-leaflet-plugin:Open Leaflet Map": false
     }
   },
-  "active": "c66616d7dfa9a87a",
+  "active": "96e55a6964f6da39",
   "lastOpenFiles": [
-    "linear_notes/Swift's polymorphic generics (WITNESS PASSING!!!!!).md",
-    "linear_notes/Quantified Constraints -> constraints on steroids.md",
-    "linear_notes/Notes on Austral & Linear System F.md",
-    "linear_notes/Beyond Rust & Haskell -> typesystem features which are hella experimental.md",
-    "linear_notes/Constraint kinds thought dump.md",
-    "linear_notes/Dynamic and static dispatching + Existentials.md",
+    "linear_notes/Compilation Strategy thoughts.md",
     "linear_notes/Haskell's System FC notes.md",
-    "linear_notes/Loan sets -> borrow checking without lifetimes.md",
+    "linear_notes/Dynamic and static dispatching + Existentials.md",
+    "linear_notes/System F<：(with Subtyping) + Separation Logic & Reachability Types.md",
+    "linear_notes/Beyond Rust & Haskell -> typesystem features which are hella experimental.md",
+    "attachments/Pasted image 20250412122513.png",
+    "linear_notes/Notes on Austral & Linear System F.md",
     "Toplevel.md",
+    "linear_notes/Quantified Constraints -> constraints on steroids.md",
+    "linear_notes/Loan sets -> borrow checking without lifetimes.md",
+    "linear_notes/Swift's polymorphic generics (WITNESS PASSING!!!!!).md",
+    "linear_notes/Constraint kinds thought dump.md",
     "attachments/Pasted image 20250331023800.png",
     "README.md",
     "linear_notes/Constraint kinds thought dump.md~",
@@ -219,14 +226,11 @@
     "year_2_unconnected/algorithm design/lhs_notes/src/Zippers.lhs",
     "year_2_unconnected/algorithm design/lhs_notes/16 - DerivingZippers.pdf",
     "year_2_unconnected/algorithm design/14 - Zippers.md",
-    "year_2_unconnected/probability_theory/3 - Discrete Random Variables.md",
     "attachments/Pasted image 20250202220914.png",
-    "math_atomic_notes/Binomial Distribution.md",
     "attachments/Pasted image 20250202220212.png",
     "attachments/Pasted image 20250202220129.png",
     "attachments/Pasted image 20250202215900.png",
     "attachments/Pasted image 20250202215831.png",
-    "attachments/Pasted image 20250202215747.png",
     "year_2_unconnected/probability_theory",
     "prototypes",
     "TESTING_TRANSCLUSION",

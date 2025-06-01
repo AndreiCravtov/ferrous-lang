@@ -14,3 +14,4 @@ Here is [a Reddit comment](https://www.reddit.com/r/haskell/comments/29onpf/comm
 Then for examples where these descriptors CAN BE ERASED they ARE ERASED
 - Therefore after this "elaboration and optimization" process, most of the items which are monomorphizable are monomorphized
 - A small subset of cases (existentials, polymorphic recursion, rank-n types, etc.) will require dynamic dispatch (i.e. type descriptor passing) and can be opt-in via a keyword
+

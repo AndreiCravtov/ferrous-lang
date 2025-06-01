@@ -28,7 +28,7 @@ These might be super useful for defining [[#View types]] specifically when selec
 
 
 refinement types
-path polymorphism
+path polymorphism -> [type-soundness paper](https://dl.acm.org/doi/10.1016/j.entcs.2016.06.015)
 generic  paths
 views
 views into traits -> impl subset of trait -> structural typing (not nominal) like go

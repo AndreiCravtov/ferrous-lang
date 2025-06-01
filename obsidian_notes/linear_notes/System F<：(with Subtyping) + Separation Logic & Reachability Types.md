@@ -1,0 +1,13 @@
+# System $F_{<:}$
+It seems like the longer I think about this language, the more orthogonal "categories" I come up with for the exact same things: region types, proof/coersion types, static vs. dynamic dispatch, const/pure evaluations, linear vs. affine vs. free types, and so on and so forth:
+- There is often a natural "subtyping" relation to a lot of these, e.g. if `'b <: 'a` then `&'a T <: &'b T` that is if `'a` outlives `'b` then references `&'a T` that live for atleast as long as `'a` are a **subtype** of references `&'b T` that live for atleast as long as `'a`
+- [Linear types can be seen as **supertypes** of all others, unique types can be seen as **subtypes** of all others](https://www.reddit.com/r/ProgrammingLanguages/comments/18utk9o/comment/kfnkv03/), etc. 
+![[Pasted image 20250412122513.png|700]]
+- I'm tempted to encode these as "kinds" but with that the number of "kinds" and their intersections grows exponentially
+- Furthermore, there is a temptation to represent the "transition" between these "kinds" with explicit coersion-proof terms, which would massively complicate handling when working in a calculus that fundamentally does not understand subtyping
+The solution may be to investigate [an extension of System F with subtyping ($F_{<:}$)](https://www.sciencedirect.com/science/article/pii/S0890540184710133) which would make reasoning about all this nonsense a little more logical, especially if I choose to venture into the land of [[Beyond Rust & Haskell -> typesystem features which are hella experimental#Row polymorphism|row polymorphism]] or [[Beyond Rust & Haskell -> typesystem features which are hella experimental#Refinement types|refinement types]] etc.
+-> Also [extension to $F_{<:}$ with capture sets](https://arxiv.org/abs/2105.11896): captured variables in types
+
+# Separation Logic & Reachability Types
+[Separation logic](https://en.wikipedia.org/wiki/Separation_logic) is an extension of **hoare logic** which adds the idea of "disjointness" of memory to the logic, allows for advanced reasoning of pointer/ownership/concurrency etc., which all require a notion of "locality" enabled by **separation/disjointness**.
+[Reachability types](https://dl.acm.org/doi/10.1145/3485516) (and [polymorphic version](https://dl.acm.org/doi/abs/10.1145/3632856) - see [github](https://github.com/tiarkrompf/reachability) for code) allow for **separation/alias tracking** for <u>higher-order functional programs</u>!!!
